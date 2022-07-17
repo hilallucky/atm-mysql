@@ -14,7 +14,31 @@ prompt.delimiter = " ";
 
 let data, validate
 
-var account_no, account_no_to, fullname;
+let account_no, account_no_to, fullname;
+
+promptWelcome();
+
+function promptWelcome() {
+  clearScreen();
+  prompt.get(promptSchemasNew.defaultSchema, welcomeMenuCallback.bind(this));
+};
+
+function welcomeMenuCallback(err, choice) {
+  if (err) { return; }
+  console.log("\n\n");
+  switch (choice["default screen"]) {
+    case "1":
+      //Show Login
+      promptLogin();
+      break;
+    case "2":
+      //Register New Account
+      registerNewAccount()
+      break;
+  }
+};
+
+
 function promptLogin() {
   clearScreen();
 
@@ -50,7 +74,7 @@ function promptLogin() {
   });
 }
 
-promptLogin();
+// promptLogin();
 
 function registerNewAccount() {
   clearScreen();
@@ -111,7 +135,7 @@ async function checkBalance(printout, destination_account) {
         console.log('Welcome to ATM console:');
         console.log('  Name: ' + fullname);
         console.log('  Account No: ' + account_no);
-        console.log(`  Amount:  ${balance? balance : 0}`);
+        console.log(`  Amount:  ${balance ? balance : 0}`);
         console.log(`  Amount Receivable:  ${data.amount_receivable ? data.amount_receivable : 0}`);
         console.log('  Amount Owe: ' + amount_ow || 0);
       }

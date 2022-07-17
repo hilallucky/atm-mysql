@@ -18,7 +18,6 @@ app.listen(config.PORT, () =>{
     var newReg,
     ATM = require('./src/atm');
 
-    // newReg = new ATM();
-    // newReg.on();
+    return ATM;
 
 })

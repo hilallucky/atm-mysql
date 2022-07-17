@@ -10,9 +10,9 @@ promptSchemas = {
   defaultSchema: {
     properties: {
       "default screen": {
-        description: "welcome to the ATM!\nChoose 1 (Transaction), 2 (Register new account).".green,
+        description: "Welcome to the ATM!\nChoose 1 (Login), 2 (Register new account).".green,
         pattern: /^[12]$/,
-        message: "Please choose 1 for transaction or 2 for new account",
+        message: "Please choose 1 for login or 2 for register new account",
         required: true
       }
     }
