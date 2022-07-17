@@ -1,10 +1,18 @@
 Before use this application, please install MySQL on localhost and setting .env for connection
 
 1. Open ATM project folder
-2. Open terminal in vscode
-3. Install all packages by run 
+2. Install mysql in docker (install docker for PC), open Terminal and run:
+    # Windows
+        Open command prompt
+        Type `run.exe`
+    # Windows
+        Open terminal
+        Type `run.sh`
+    Or if you don't want to install docker for PC, please install mysql first and set default password 123123
+3. Open terminal in vscode
+4. Install all packages by run 
     npm install
-4. Create database MySql by running this command
+5. Create database MySql by running this command
     npx sequelize db:create
 5. Create tables by running this command
     npx sequelize db:migrate
