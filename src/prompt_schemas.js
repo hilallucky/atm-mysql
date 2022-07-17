@@ -1,6 +1,6 @@
 const express = require('express')
 const {request, response} = express()
-const middlewaresCHek = require('../helper/account')
+const middlewaresCheck = require('../helper/account')
 
 var promptSchemas, colors;
 colors = require('colors');
@@ -32,7 +32,7 @@ promptSchemas = {
             // hidden: false,
             required: true,
             validate : async function (params) {
-              let result = await middlewaresCHek().runCHeck(params)
+              let result = await middlewaresCheck().runCHeck(params)
               // console.log(result);
               return result
             }
@@ -97,7 +97,7 @@ promptSchemas = {
         hidden: false,
         validate : async function (params) {
           // console.log('halosussj');
-          let result = await middlewaresCHek().insertAccount(params)
+          let result = await middlewaresCheck().insertAccount(params)
           // console.log(JSON.stringify(result)s);
           return result
         }
@@ -180,7 +180,7 @@ promptSchemas = {
         required: true,
         validate : async function (params) {
           console.log('halosussj params = '+JSON.stringify(params));
-          let result = await middlewaresCHek().runCHeck(params)
+          let result = await middlewaresCheck().runCHeck(params)
           // console.log(result);
           return result
         }
@@ -193,7 +193,7 @@ promptSchemas = {
         hidden: false,
         validate : async function (params) {
           // console.log('halosussj');
-          let result = await middlewaresCHek().insertAccount(params)
+          let result = await middlewaresCheck().insertAccount(params)
           // console.log(result);
           return result
         }

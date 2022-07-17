@@ -20,7 +20,11 @@ Before use this application, please install MySQL on localhost and setting .env 
     `$ npx sequelize-cli db:seed:all`
 8. Run js by running this command
     `$ npm run start`
-9. Choose 1 for login, 2 for register new account
+9. Choose 1 for login, 2 for register new account.
+   I already create username & password for test
+   Sample username & password:
+   `Username = Alice, Password = 1234`
+   `Username = Bob, Password = 2345`
 10. Insert username & password, if invalid the you may create new user with this application
 11. After create user/login than choose menu that you want to you use regarding case below
         

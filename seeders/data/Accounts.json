@@ -1,6 +1,6 @@
 {
     "data": [
-        {"firstname":"Alice","middlename":" ", "lastname": " ", "id_no": "12341234", "account_no": "12341234", "username": "Alice", "password": "1234"},
-        {"firstname":"Bob","middlename":" ", "lastname": " ", "id_no": "23452345", "account_no": "23452345", "username": "Bob", "password": "2345"}
+        {"firstname":"Alice","middlename":" ", "lastname": " ", "id_no": "1234", "account_no": "1234", "username": "Alice", "password": "1234"},
+        {"firstname":"Bob","middlename":" ", "lastname": " ", "id_no": "2345", "account_no": "2345", "username": "Bob", "password": "2345"}
     ]
 }

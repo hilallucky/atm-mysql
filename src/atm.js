@@ -291,7 +291,13 @@ async function depositFundsCallback(err, amount) {
 
 async function transferFunds(destination_account, amount) {
   if (account_no) {
-    var newBalanceSource, newBalanceDest = 0, balanceOw = 0, transferAmount = 0, amount_success = 0, inserDataTrans = [],
+    var newBalanceSource,
+      newBalanceDest = 0,
+      balanceOw = 0,
+      transferAmount = 0,
+      amount_success = 0,
+      inserDataTrans = [],
+      validateDestinationAccount = await middlewaresCheck().runCHeck({ account_no: destination_account }),
       balance = await checkBalance(0),
       balance2 = await checkBalance(0, destination_account),
       balance_start = balance.balance.amountbalance,
@@ -299,12 +305,10 @@ async function transferFunds(destination_account, amount) {
       amount_receivable2 = balance2.balance.amount_receivable,
       amount_receivable = balance2.balance.amount_receivable;
 
-    if (!balance2.datax || balance2.datax === false) {
-      console.log('Invalid destination account');
-      console.log(`Transfer to Account : ${destination_account}, Amount: ${amount}, status: failed`);
-      console.log(`Your existing amount now : ${balance.balance.amountbalance}`);
-      // returnpromptAnotherTransaction();
-      return;
+    // console.log(`validateDestinationAccount == ${JSON.stringify(validateDestinationAccount)}`);
+
+    if (!balance2.datax || balance2.datax === false || !validateDestinationAccount) {
+      return { data: false, balance: balance.balance.amountbalance };
     } else {
       if (balance.datax !== false) {
         if (balance.balance.amountbalance === 0) {
@@ -431,16 +435,16 @@ async function transferFunds(destination_account, amount) {
         amount_balance_start: balance_start2
       })
       let dataTrans = await middlewaresCheckBalance().insertTransaction(inserDataTrans)
-      console.log('Transfer to Account : ' + destination_account + ', Amount: ' + amount);
+      console.log(`  Transfer to Account : ${destination_account}, Name : ${validateDestinationAccount.userLogin.firstname ? validateDestinationAccount.userLogin.firstname : ''} ${validateDestinationAccount.userLogin.middlename ? validateDestinationAccount.userLogin.middlename : ''} ${validateDestinationAccount.userLogin.lastname ? validateDestinationAccount.userLogin.lastname : ''}, Amount: ${amount}`);
 
-      return balance;
+      return { data: true, balance: balance };
 
     }
-    return "invalid session";
+    return { data: 'invalid session', balance: 0 };
   }
 };
 
-transferFundsCallback = function (err, amount) {
+transferFundsCallback = async function (err, amount) {
   var withdrawalAmount = parseInt(amount["transfer amount"], 10),
     destination_account = amount["destinationAccount"]
 
@@ -448,18 +452,24 @@ transferFundsCallback = function (err, amount) {
   if (destination_account == account_no) {
     console.log('Cannot transfer to self account!'.red);
   } else {
-    var balance = transferFunds(destination_account, withdrawalAmount)
-    if (balance === null || balance === undefined) {
-      balance = 0;
+    var balance = await transferFunds(destination_account, withdrawalAmount)
+    if (balance.balance === null || balance.balance === undefined) {
+      balance.balance = 0;
     }
-    balanceString = "" + balance.toString(10).red;
-
-    console.log(balance);
+    balanceString = "" + balance.balance.toString(10).red;
+    // console.log(balance);
     //LOG ERROR TO CONSOLE IF BALANCE ISN'T ENOUGH TO COVER REQUEST//
     //AND GIVE USER OPTION TO END SESSION//
-    if (balance === "insufficient funds") {
+    if (balance.balance === "insufficient funds") {
       console.error("insufficient funds for requested transaction".red);
     }
+
+    if (!balance.data) {
+      console.error('Invalid destination account'.red);
+      console.error(`Transfer to Account : ${destination_account}, Amount: ${withdrawalAmount}, status: failed`.red);
+      console.error(`Your existing amount now : ${balance.balance}`);
+    }
+
   }
   promptAnotherTransaction();
 };
