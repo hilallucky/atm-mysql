@@ -11,7 +11,7 @@ Before use this application, please install MySQL on localhost and setting .env 
     Or if you don't want to install docker for PC, please install mysql first and set default password 123123
 3. Open terminal in vscode
 4. Install all packages by run 
-    npm install
+    `npm install -g`
 5. Create database MySql by running this command
     npx sequelize db:create
 5. Create tables by running this command
