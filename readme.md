@@ -1,6 +1,8 @@
 Before use this application, please install MySQL on localhost and setting .env for connection
 
 1. Open ATM project folder
+
+## Mysql Database setting
 2. Install mysql in docker (install docker for PC), open Terminal and run:
     # Windows
         Open command prompt
@@ -8,25 +10,28 @@ Before use this application, please install MySQL on localhost and setting .env 
     # Linux
         Open Linux terminal
         Type `run.sh`
-    Or if you don't want to install docker for PC, please install mysql first and set default password 123123 and run sql file in folder `\dump-db\db_transactions_20220717.sql` 
-3. Open terminal in vscode
-4. Install all packages by run 
+    # Visual Studio Code Terminal
+        can also use VS Code terminal
+    Or if you don't want to install docker for PC, please install mysql first and set default username `root` password `123123` and run sql file in folder `\dump-db\db_transactions_20220717.sql` 
+3. Install all packages by run 
     `$ npm install -g`
-5. Create database MySql by running this command
+4. Create database MySql by running this command
     `$ npx sequelize db:create`
-6. Create tables by running this command
+5. Create tables by running this command
     `$ npx sequelize db:migrate`
-7. Create record in table transactiontype by run 
+6. Create record in table transactiontype by run 
     `$ npx sequelize-cli db:seed:all`
-8. Run js by running this command
+
+## Running the application
+7. Run js by running this command
     `$ npm run start`
-9. Choose 1 for login, 2 for register new account.
+8. Choose 1 for login, 2 for register new account.
    I already create username & password for test
    Sample username & password:
    `Username = Alice, Password = 1234`
    `Username = Bob, Password = 2345`
-10. Insert username & password, if invalid the you may create new user with this application
-11. After create user/login than choose menu that you want to you use regarding case below
+9. Insert username & password, if invalid the you may create new user with this application
+10. After create user/login than choose menu that you want to you use regarding case below
         
 
 Run this schema  # ATM
