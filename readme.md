@@ -5,8 +5,8 @@ Before use this application, please install MySQL on localhost and setting .env 
     # Windows
         Open command prompt
         Type `run.exe`
-    # Windows
-        Open terminal
+    # Linux
+        Open Linux terminal
         Type `run.sh`
     Or if you don't want to install docker for PC, please install mysql first and set default password 123123
 3. Open terminal in vscode
