@@ -4,7 +4,7 @@ Before use this application, please install MySQL on localhost and setting .env 
 2. Install mysql in docker (install docker for PC), open Terminal and run:
     # Windows
         Open command prompt
-        Type `run.exe`
+        Type `run.cmd`
     # Linux
         Open Linux terminal
         Type `run.sh`
@@ -23,8 +23,7 @@ Before use this application, please install MySQL on localhost and setting .env 
 9. Choose 1 for login, 2 for register new account
 10. Insert username & password, if invalid the you may create new user with this application
 11. After create user/login than choose menu that you want to you use regarding case below
-    
-    
+        
 
 Run this schema  # ATM
 
@@ -45,6 +44,10 @@ Your console output should contain at least the following output depending on th
 to add extra output as you see fit.
 
 ```bash
+Sample username & password:
+Username = Alice, Password = 1234
+Username = Bob, Password = 2345
+
 
 $ login Alice
 Hello, Alice!

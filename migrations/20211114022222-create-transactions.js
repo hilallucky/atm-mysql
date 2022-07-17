@@ -12,7 +12,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       trans_code: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       account_source: {
         type: Sequelize.DECIMAL(20,0),

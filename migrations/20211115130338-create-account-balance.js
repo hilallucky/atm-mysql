@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.DECIMAL(20,0),
       },
       trans_code: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       amountbalance: {
         type: Sequelize.INTEGER

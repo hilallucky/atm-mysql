@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       trans_code: {
-        type: Sequelize.INTEGER
+        type: Sequelize.STRING
       },
       trans_prefix: {
         type: Sequelize.STRING

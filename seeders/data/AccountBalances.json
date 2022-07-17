@@ -1,0 +1,6 @@
+{
+    "data": [
+        {"account": "12341234", "trans_code":"0", "amountbalance":"0", "amount_receivable":null, "amount_ow":"0", "amount_success":"0"},
+        {"account": "23452345", "trans_code":"0", "amountbalance":"0", "amount_receivable":null, "amount_ow":"0", "amount_success":"0"}
+    ]
+}

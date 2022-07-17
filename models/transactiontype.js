@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   TransactionType.init({
-    trans_code: DataTypes.INTEGER,
+    trans_code: DataTypes.STRING,
     trans_prefix: DataTypes.STRING,
     trans_effect: DataTypes.STRING
   }, {

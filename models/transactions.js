@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   Transactions.init({
     trans_date: DataTypes.STRING,
-    trans_code: DataTypes.INTEGER,
+    trans_code: DataTypes.STRING,
     account_source: DataTypes.DECIMAL(20,0),
     account_destination: DataTypes.DECIMAL(20,0),
     amount: DataTypes.INTEGER,

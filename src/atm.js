@@ -53,19 +53,8 @@ function promptLogin() {
     } else {
       clearScreen();
       fullname = data.userLogin.firstname + ' ' + data.userLogin.middlename + ' ' + data.userLogin.lastname
-      let amount_balance
-      if (data.balance.amountbalance === null) {
-        amount_balance = 0
-      } else {
-        amount_balance = data.balance.amountbalance
-      }
-      console.log('Welcome to ATM console:');
-      console.log('  Name: ' + fullname);
-      // console.log('  Password: ' + data.password);
-      console.log('  Account No: ' + data.userLogin.account_no);
-      console.log('  Amount: ' + amount_balance || 0);
-      console.log('  Amount Receivable: ' + data.balance.amount_receivable || 0);
-      console.log('  Amount Owe: ' + data.balance.amount_ow || 0);
+
+      printToScreen(true, fullname, data.userLogin.account_no, data.balance.amountbalance, data.balance.amount_receivable, data.balance.amount_ow);
       account_no = data.userLogin.account_no
       fullname = fullname
       promptAnotherTransaction()
@@ -96,12 +85,7 @@ function registerNewAccount() {
       new promptLogin()
     } else {
 
-      console.log('Welcome to ATM console:');
-      console.log(' Name: ' + fullname);
-      console.log('  Account No: ' + data[0].insertNewAccount.account_no);
-      console.log('  Amount: ' + data[0].balanceAccount[0].insertBalanceAmount.amountbalance ? data[0].balanceAccount[0].insertBalanceAmount.amountbalance : 0);
-      console.log('  Amount Receivable: ' + data[0].balanceAccount[0].insertBalanceAmount.amount_receivable || 0);
-      console.log('  Amount Owe: ' + data[0].balanceAccount[0].insertBalanceAmount.amount_ow || 0);
+      printToScreen(true, fullname, account_no, balance, data.amount_receivable, data.amount_ow);
       account_no = data[0].insertNewAccount.account_no
       console.log('')
       promptAnotherTransaction()
@@ -122,22 +106,13 @@ async function checkBalance(printout, destination_account) {
       balance = 0
       datax = false
       if (printout == 1) {
-        console.log('  Name: ' + fullname);
-        console.log('  Account No: ' + account_no);
-        console.log('  Amount: ' + 0 || 0);
-        console.log('  Amount Receivable: ' + 0 || 0);
-        console.log('  Amount Owe: ' + 0 || 0);
+        printToScreen(false, fullname, account_no, 0, 0, 0);
       }
     } else {
       balance = data.amountbalance, amount_ow = data.amount_ow
       datax = true
       if (printout == 1) {
-        console.log('Welcome to ATM console:');
-        console.log('  Name: ' + fullname);
-        console.log('  Account No: ' + account_no);
-        console.log(`  Amount:  ${balance ? balance : 0}`);
-        console.log(`  Amount Receivable:  ${data.amount_receivable ? data.amount_receivable : 0}`);
-        console.log('  Amount Owe: ' + amount_ow || 0);
+        printToScreen(true, fullname, account_no, balance, data.amount_receivable, amount_ow);
       }
     }
 
@@ -147,6 +122,26 @@ async function checkBalance(printout, destination_account) {
   return result[0];
 
 };
+
+function printToScreen(
+  welcome = false,
+  fullname,
+  account_no,
+  balance,
+  amount_receivable,
+  amount_ow
+) {
+  if (welcome) console.log('Welcome to ATM console:');
+  console.log('  Name: ' + fullname);
+  console.log('  Account No: ' + account_no);
+  console.log(`  Amount:  ${valueNumber(balance)} `);
+  console.log(`  Amount Receivable:  ${valueNumber(amount_receivable)} `);
+  console.log(`  Amount Owe: ${valueNumber(amount_ow)}`);
+}
+
+function valueNumber(no) {
+  return no ? no : 0;
+}
 
 
 async function updateBalance(params) {
@@ -245,7 +240,7 @@ async function depositFunds(amount) {
       balance = 0
       inserDataTrans.push({
         trans_date: new Date(),
-        trans_code: 0,
+        trans_code: '0',
         account_source: account_no,
         account_destination: account_no,
         amount: amount,
@@ -264,7 +259,7 @@ async function depositFunds(amount) {
 
       inserDataTrans.push({
         trans_date: new Date(),
-        trans_code: 0,
+        trans_code: '0',
         account_source: account_no,
         account_destination: account_no,
         amount: amount,
@@ -303,137 +298,146 @@ async function transferFunds(destination_account, amount) {
       balance_start2 = balance2.balance.amountbalance,
       amount_receivable2 = balance2.balance.amount_receivable,
       amount_receivable = balance2.balance.amount_receivable;
-    if (balance.datax !== false) {
-      if (balance.balance.amountbalance === 0) {
-        newBalanceSource = 0
-        balanceOw = amount // * -1
-        amount_receivable = 0
-        amount_success = 0
-      }
-      let balancex = balance.balance.amountbalance - amount
-      var amountNew = balance.balance.amountbalance
-      // console.log('balancex transferFunds = '+JSON.stringify(balancex));
-      if (balancex === 0) {
-        newBalanceSource = 0
-        balanceOw = 0
-        if (balance.balance.amount_ow > 0) {
-          balanceOw = (balance.balance.amount_ow - balance.balance.amountbalance) //* -1
-        }
-        amount_success = balance.balance.amountbalance
-        amount_receivable = 0
-      }
-      if (balancex < 0) {
-        newBalanceSource = 0
-        if (balance.balance.amount_receivable > 0) {
-          amount_receivable = balance.balance.amount_receivable - amount
-        } else if (balance.balance.amount_receivable > 0 && balance.balance.amount_receivable - amount < 0) {
-          amount_receivable = 0
-          newBalanceSource = amount - balance.balance.amount_receivable + balance.balance.amount_receivable
-        }
-        balanceOw = -balancex
-        if (balance.balance.amountbalance >= 0) {
-          amount_success = balance.balance.amount_ow - balance.balance.amountbalance
-        } else {
-          amount_success = (balance.balance.amountbalance + amount) //*-1
-        }
-      }
-      if (balancex > 0) {
-        newBalanceSource = balancex
-        if (balance.balance.amount_receivable > 0 && balance.balance.amount_receivable - amount < 0) {
-          amount_receivable = 0
-          newBalanceSource = amount - balance.balance.amount_receivable + balance.balance.amountbalance
-        } else if (balance.balance.amount_receivable > 0 && balance.balance.amount_receivable - amount > 0) {
-          amount_receivable = balance.balance.amount_receivable - amount
-          newBalanceSource = balance.balance.amountbalance
-        }
-        balanceOw = 0
-        if (balance.balance.amount_ow > 0 && balance.balance.amountbalance - amount >= 0) {
-          amount_receivable = 0
-        }
-        amount_success = amount
-      }
-    }
 
-    let amount_receivable_source = amount_receivable, amount_ow_source = balanceOw, amount_success_source = amount_success
-    var amount_receivable_dest1 = balanceOw
-
-    balance = await updateBalance({ amount: newBalanceSource, amount_receivable: amount_receivable_source, amount_ow: amount_ow_source, amount_success: amount_success_source });
-    inserDataTrans.push({
-      trans_date: new Date(),
-      trans_code: 'd',
-      account_source: account_no,
-      account_destination: destination_account,
-      amount: amount,
-      amount_owe: balanceOw,
-      amount_success: amount_success,
-      amount_balance: newBalanceSource,
-      amount_balance_start: balance_start
-    })
-
-
-    //DESTINATION
-
-    if (balance2.datax !== false) {
-      if (balance2.balance.amount_ow === 0) {
-        newBalanceDest = balance2.balance.amountbalance + amount
-        balanceOw = 0
-        amount_success = amount
-      }
-      let balanceOwx = balance2.balance.amount_ow - amount
-
-      if (balanceOwx === 0) {
-        newBalanceSource = 0 //balance2.balance.amountbalance + amount
-        balanceOw = 0
-        amount_success = amount
-      }
-      if (balanceOwx < 0) {
-        newBalanceDest = balance2.balance.amountbalance + amount
-        if (balance.balance.amountbalance === 0) {
-          newBalanceDest = 0 + balance2.balance.amountbalance;
-        }
-        if (balance.balance.amount_ow > 0) {
-          newBalanceDest = balance2.balance.amountbalance + amountNew;
-          // balanceOw = balance2.balance.amount_ow - amountNew
-        }
-        balanceOw = 0
-        amount_success = amount
-      }
-      if (balanceOwx > 0) {
-        newBalanceDest = 0
-        balanceOw = balanceOwx
-        amount_success = amount
-      }
-    }
-    let account_destinationx;
-    if (balanceOw > 0) {
-      account_destinationx = account_no
+    if (!balance2.datax || balance2.datax === false) {
+      console.log('Invalid destination account');
+      console.log(`Transfer to Account : ${destination_account}, Amount: ${amount}, status: failed`);
+      console.log(`Your existing amount now : ${balance.balance.amountbalance}`);
+      // returnpromptAnotherTransaction();
+      return;
     } else {
-      account_destinationx = destination_account
+      if (balance.datax !== false) {
+        if (balance.balance.amountbalance === 0) {
+          newBalanceSource = 0
+          balanceOw = amount // * -1
+          amount_receivable = 0
+          amount_success = 0
+        }
+        let balancex = balance.balance.amountbalance - amount
+        var amountNew = balance.balance.amountbalance
+        // console.log('balancex transferFunds = '+JSON.stringify(balancex));
+        if (balancex === 0) {
+          newBalanceSource = 0
+          balanceOw = 0
+          if (balance.balance.amount_ow > 0) {
+            balanceOw = (balance.balance.amount_ow - balance.balance.amountbalance) //* -1
+          }
+          amount_success = balance.balance.amountbalance
+          amount_receivable = 0
+        }
+        if (balancex < 0) {
+          newBalanceSource = 0
+          if (balance.balance.amount_receivable > 0) {
+            amount_receivable = balance.balance.amount_receivable - amount
+          } else if (balance.balance.amount_receivable > 0 && balance.balance.amount_receivable - amount < 0) {
+            amount_receivable = 0
+            newBalanceSource = amount - balance.balance.amount_receivable + balance.balance.amount_receivable
+          }
+          balanceOw = -balancex
+          if (balance.balance.amountbalance >= 0) {
+            amount_success = balance.balance.amount_ow - balance.balance.amountbalance
+          } else {
+            amount_success = (balance.balance.amountbalance + amount) //*-1
+          }
+        }
+        if (balancex > 0) {
+          newBalanceSource = balancex
+          if (balance.balance.amount_receivable > 0 && balance.balance.amount_receivable - amount < 0) {
+            amount_receivable = 0
+            newBalanceSource = amount - balance.balance.amount_receivable + balance.balance.amountbalance
+          } else if (balance.balance.amount_receivable > 0 && balance.balance.amount_receivable - amount > 0) {
+            amount_receivable = balance.balance.amount_receivable - amount
+            newBalanceSource = balance.balance.amountbalance
+          }
+          balanceOw = 0
+          if (balance.balance.amount_ow > 0 && balance.balance.amountbalance - amount >= 0) {
+            amount_receivable = 0
+          }
+          amount_success = amount
+        }
+      }
+
+      let amount_receivable_source = amount_receivable, amount_ow_source = balanceOw, amount_success_source = amount_success
+      var amount_receivable_dest1 = balanceOw
+
+      balance = await updateBalance({ amount: newBalanceSource, amount_receivable: amount_receivable_source, amount_ow: amount_ow_source, amount_success: amount_success_source });
+      inserDataTrans.push({
+        trans_date: new Date(),
+        trans_code: 'd',
+        account_source: account_no,
+        account_destination: destination_account,
+        amount: amount,
+        amount_owe: balanceOw,
+        amount_success: amount_success,
+        amount_balance: newBalanceSource,
+        amount_balance_start: balance_start
+      })
+
+
+      //DESTINATION
+
+      if (balance2.datax !== false) {
+        if (balance2.balance.amount_ow === 0) {
+          newBalanceDest = balance2.balance.amountbalance + amount
+          balanceOw = 0
+          amount_success = amount
+        }
+        let balanceOwx = balance2.balance.amount_ow - amount
+
+        if (balanceOwx === 0) {
+          newBalanceSource = 0 //balance2.balance.amountbalance + amount
+          balanceOw = 0
+          amount_success = amount
+        }
+        if (balanceOwx < 0) {
+          newBalanceDest = balance2.balance.amountbalance + amount
+          if (balance.balance.amountbalance === 0) {
+            newBalanceDest = 0 + balance2.balance.amountbalance;
+          }
+          if (balance.balance.amount_ow > 0) {
+            newBalanceDest = balance2.balance.amountbalance + amountNew;
+            // balanceOw = balance2.balance.amount_ow - amountNew
+          }
+          balanceOw = 0
+          amount_success = amount
+        }
+        if (balanceOwx > 0) {
+          newBalanceDest = 0
+          balanceOw = balanceOwx
+          amount_success = amount
+        }
+      }
+      let account_destinationx;
+      if (balanceOw > 0) {
+        account_destinationx = account_no
+      } else {
+        account_destinationx = destination_account
+      }
+
+      let amount_receivable_dest = amount_receivable2, amount_ow_dest = balanceOw, amount_success_dest = amount_success
+      if (amount_receivable_dest1 > 0 || amount_receivable_dest > 0) {
+        amount_receivable_dest = amount_receivable_dest1
+      }
+      balance2 = await updateBalance({ amount: newBalanceDest, amount_receivable: amount_receivable_dest, amount_ow: amount_ow_dest, amount_success: amount_success_dest, destination_account: destination_account });
+      inserDataTrans.push({
+        trans_date: new Date(),
+        trans_code: 'c',
+        account_source: destination_account,
+        account_destination: account_destinationx,
+        amount: amount,
+        amount_owe: balanceOw,
+        amount_success: amount_success,
+        amount_balance: newBalanceDest,
+        amount_balance_start: balance_start2
+      })
+      let dataTrans = await middlewaresCheckBalance().insertTransaction(inserDataTrans)
+      console.log('Transfer to Account : ' + destination_account + ', Amount: ' + amount);
+
+      return balance;
+
     }
-
-    let amount_receivable_dest = amount_receivable2, amount_ow_dest = balanceOw, amount_success_dest = amount_success
-    if (amount_receivable_dest1 > 0 || amount_receivable_dest > 0) {
-      amount_receivable_dest = amount_receivable_dest1
-    }
-    balance2 = await updateBalance({ amount: newBalanceDest, amount_receivable: amount_receivable_dest, amount_ow: amount_ow_dest, amount_success: amount_success_dest, destination_account: destination_account });
-    inserDataTrans.push({
-      trans_date: new Date(),
-      trans_code: 'c',
-      account_source: destination_account,
-      account_destination: account_destinationx,
-      amount: amount,
-      amount_owe: balanceOw,
-      amount_success: amount_success,
-      amount_balance: newBalanceDest,
-      amount_balance_start: balance_start2
-    })
-    let dataTrans = await middlewaresCheckBalance().insertTransaction(inserDataTrans)
-    console.log('Transfer to ' + destination_account + ' ' + amount);
-
-    return balance;
-
+    return "invalid session";
   }
-  return "invalid session";
 };
 
 transferFundsCallback = function (err, amount) {

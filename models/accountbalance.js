@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   AccountBalance.init({
     trans_date: DataTypes.STRING,
     account: DataTypes.DECIMAL(20,0),
-    trans_code: DataTypes.INTEGER,
+    trans_code: DataTypes.STRING,
     amountbalance: DataTypes.INTEGER,
     amount_receivable: DataTypes.INTEGER,
     amount_ow: DataTypes.INTEGER,
