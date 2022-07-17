@@ -28,8 +28,8 @@ Before use this application, please install MySQL on localhost and setting .env 
 8. Choose 1 for login, 2 for register new account.
    I already create username & password for test
    Sample username & password:
-   `Username = Alice, Password = 1234`
-   `Username = Bob, Password = 2345`
+   `Username = Alice, Password = 1234, Account No = 1234`
+   `Username = Bob, Password = 2345, Account No = 2345`
 9. Insert username & password, if invalid the you may create new user with this application
 10. After create user/login than choose menu that you want to you use regarding case below
         
@@ -54,8 +54,8 @@ to add extra output as you see fit.
 
 ```bash
 Sample username & password:
-Username = Alice, Password = 1234
-Username = Bob, Password = 2345
+Username = Alice, Password = 1234, Account No = 1234
+Username = Bob, Password = 2345, Account No = 2345
 
 
 $ login Alice
