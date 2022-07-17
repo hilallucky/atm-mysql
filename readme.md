@@ -11,17 +11,18 @@ Before use this application, please install MySQL on localhost and setting .env 
     Or if you don't want to install docker for PC, please install mysql first and set default password 123123
 3. Open terminal in vscode
 4. Install all packages by run 
-    `npm install -g`
+    `$ npm install -g`
 5. Create database MySql by running this command
-    npx sequelize db:create
-5. Create tables by running this command
-    npx sequelize db:migrate
-6. Create record in table transactiontype by run 
-    npx sequelize-cli db:seed:all
-7. run js by running this command
-    node atm.js
-8. Insert username & password, if invalid the you may create new user with this application
-9. After create user/login than choose menu that you want to you use regarding case below
+    `$ npx sequelize db:create`
+6. Create tables by running this command
+    `$ npx sequelize db:migrate`
+7. Create record in table transactiontype by run 
+    `$ npx sequelize-cli db:seed:all`
+8. Run js by running this command
+    `$ npm run start`
+9. Choose 1 for login, 2 for register new account
+10. Insert username & password, if invalid the you may create new user with this application
+11. After create user/login than choose menu that you want to you use regarding case below
     
     
 
