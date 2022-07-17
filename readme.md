@@ -8,7 +8,7 @@ Before use this application, please install MySQL on localhost and setting .env 
     # Linux
         Open Linux terminal
         Type `run.sh`
-    Or if you don't want to install docker for PC, please install mysql first and set default password 123123
+    Or if you don't want to install docker for PC, please install mysql first and set default password 123123 and run sql file in folder `\dump-db\db_transactions_20220717.sql` 
 3. Open terminal in vscode
 4. Install all packages by run 
     `$ npm install -g`
