@@ -14,6 +14,7 @@ Before use this application, please install MySQL on localhost and setting .env 
         can also use VS Code terminal
     Or if you don't want to install docker for PC, please install mysql first and set default username `root` password `123123` and run sql file in folder `\dump-db\db_transactions_20220717.sql` 
 3. Install all packages by run 
+    `$ npm install -g sequelize-cli`
     `$ npm install`
 4. Create database MySql by running this command
     `$ npx sequelize db:create`
