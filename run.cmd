@@ -1,1 +1,1 @@
-docker run --name mysql-local -p 3306:3306 -e "MYSQL_ROOT_PASSWORD=123123" mysql
+docker run --rm -it  --name docker_mysql --hostname mysql  -c 512 -m 512m  -e PGID=100 -e PUID=1000  -e MYSQL_ROOT_PWD=123123  -e MYSQL_USER=root  -e MYSQL_USER_PWD=123123  -p 3306:3306  -v data:/var/lib/mysql  -v /etc/hosts:/etc/hosts:ro  -v /etc/localtime:/etc/localtime:ro woahbase/alpine-mysql:x86_64
